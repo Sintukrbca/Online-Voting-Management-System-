@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Vote Now</title>
+    <link rel="stylesheet" href="/style.css" />
+</head>
+
+<body class="india-theme">
+
+    <nav class="india-nav">
+        <div class="nav-brand">
+            <div class="ashoka-chakra">⊛</div>
+            <div class="logo-text">Vote Now</div>
+        </div>
+        <ul>
+            <li><a href="/logout">Logout</a></li>
+        </ul>
+    </nav>
+
+    <div class="flag-stripe"></div>
+
+    <div class="container">
+        <h2 style="text-align:center;">🇮🇳 Choose Your Candidate 🇮🇳</h2>
+
+        <div class="candidate-grid">
+            <% candidates.forEach(c=> { %>
+                <div class="candidate-card">
+                    <h3>
+                        <%= c.name %>
+                    </h3>
+                    <p>
+                        <%= c.party %>
+                    </p>
+                    <form action="/vote/<%= c._id %>" method="POST">
+                        <button type="submit" class="btn india-btn-primary">Vote Now</button>
+                    </form>
+                </div>
+                <% }) %>
+        </div>
+    </div>
+
+</body>
+
+</html>

@@ -6,7 +6,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js"
-    
   },
   "keywords": [],
   "author": "",
@@ -19,6 +18,7 @@
     "express-session": "^1.19.0",
     "mongoose": "^9.2.4",
     "nodemon": "^3.1.14",
-    "oracledb": "^5.5.0"
+    "oracledb": "^5.5.0",
+    "vercel": "^50.28.0"
   }
 }

@@ -4,6 +4,13 @@ const bodyParser = require("body-parser");
 const session = require("express-session");
 const path = require("path");
 
+const app = express();
+
+// Set up EJS view engine
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "ejs");
+
+
 // MongoDB connection
 require("./db");
 
@@ -11,7 +18,6 @@ const authRoutes = require("./routes/auth");
 const adminRoutes = require("./routes/admin");
 const voteRoutes = require("./routes/voter");
 
-const app = express();
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));

@@ -38,5 +38,8 @@ app.use("/admin", adminRoutes);
 
 const PORT = process.env.PORT || 3000;
 
-// remove app.listen
+app.listen(PORT, () => {
+  console.log(`Server started on port http://localhost:${PORT}`);
+});
+
 module.exports = app;

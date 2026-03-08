@@ -36,6 +36,4 @@ app.use("/", authRoutes);
 app.use("/", voteRoutes);
 app.use("/admin", adminRoutes);
 
-// Server start
-const PORT = process.env.PORT || 3000;
-app.listen(PORT);
+module.exports = app;

@@ -35,7 +35,7 @@ router.post("/send-otp", async (req, res) => {
 
 // OTP page
 router.get("/otp", (req, res) => {
-  res.render("otp", { error: null });
+  res.render("otp", { error: null, otp: req.session.otp });
 });
 
 
@@ -80,7 +80,7 @@ router.post("/resend-otp", (req, res) => {
 
   console.log("New OTP:", newOtp);
 
-  res.render("otp", { error: "New OTP sent successfully!" });
+  res.render("otp", { error: "New OTP sent successfully!", otp: newOtp });
 
 });
 
@@ -101,6 +101,17 @@ router.post("/admin-login", (req, res) => {
     return res.render("login", { error: "Invalid username or password" });
   }
 
+});
+
+// Logout route (accessible from anywhere)
+router.get("/logout", (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.error("Session destruction error:", err);
+    }
+    res.clearCookie('connect.sid');
+    res.redirect('/login');
+  });
 });
 
 

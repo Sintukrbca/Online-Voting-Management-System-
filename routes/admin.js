@@ -3,8 +3,17 @@ const router = express.Router();
 const Candidate = require("../models/Candidate");
 const Voter = require("../models/voter");
 
+// helper middleware to protect admin routes
+function ensureAdmin(req, res, next) {
+  if (req.session && req.session.user && req.session.user.role === 'admin') {
+    return next();
+  }
+  // not logged in as admin, send to login page
+  return res.redirect('/login');
+}
+
 // Admin panel
-router.get("/", async (req, res) => {
+router.get("/", ensureAdmin, async (req, res) => {
   try {
     const candidates = await Candidate.find();
     res.render("admin", { candidates });
@@ -15,7 +24,7 @@ router.get("/", async (req, res) => {
 });
 
 // Add candidate
-router.post("/add-candidate", async (req, res) => {
+router.post("/add-candidate", ensureAdmin, async (req, res) => {
   try {
     const { name, party } = req.body;
 
@@ -34,22 +43,19 @@ router.post("/add-candidate", async (req, res) => {
 });
 
 // Delete candidate
-router.get("/delete/:id", async (req, res) => {
-
+router.get("/delete/:id", ensureAdmin, async (req, res) => {
   await Candidate.findByIdAndDelete(req.params.id);
-
   res.redirect("/admin");
-
 });
 
 
 
-// add vote 
-router.get("/add-voters", (req, res) => {
+// Add voter form
+router.get("/add-voters", ensureAdmin, (req, res) => {
   res.render("add-voters", { success: null, error: null });
 });
 
-router.post("/add-voter", async (req, res) => {
+router.post("/add-voter", ensureAdmin, async (req, res) => {
   const { username, voterId } = req.body;
 
   try {

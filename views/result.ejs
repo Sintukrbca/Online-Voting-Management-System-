@@ -8,6 +8,7 @@
 </head>
 
 <body class="india-theme">
+    <% var user = typeof user !== 'undefined' ? user : null; %>
 
     <nav class="india-nav">
         <div class="nav-brand">
@@ -15,8 +16,16 @@
             <div class="logo-text">Election Results</div>
         </div>
         <ul>
-            <li><a href="/admin">Home</a></li>
-            <li><a href="/login">Login</a></li>
+            <% if (user && user.role === 'admin') { %>
+                <li><a href="/admin">Admin Home</a></li>
+            <% } else { %>
+                <li><a href="/">Home</a></li>
+            <% } %>
+            <% if (user) { %>
+                <li><a href="/logout">Logout</a></li>
+            <% } else { %>
+                <li><a href="/login">Login</a></li>
+            <% } %>
         </ul>
     </nav>
 
@@ -24,20 +33,25 @@
 
     <div class="container">
         <h2 style="text-align:center;">🇮🇳 Live Election Results 🇮🇳</h2>
+        <p style="text-align:center; color:#555; margin-bottom:20px;">
+            Total votes cast: <%= candidates.reduce((sum,c)=>sum+c.votes,0) %>
+        </p>
 
         <div class="card india-card">
             <% let totalVotes=0; %>
-                <% candidates.forEach(c=> { totalVotes += c.VOTES; }); %>
+                <% candidates.forEach(c=> { totalVotes += c.votes; }); %>
+            <% let winnerVotes = candidates.length ? Math.max(...candidates.map(c=>c.votes)) : 0; %>
 
                     <% candidates.forEach(c=> {
-                        let percent = totalVotes === 0 ? 0 : Math.round((c.VOTES / totalVotes) * 100);
+                        let percent = totalVotes === 0 ? 0 : Math.round((c.votes / totalVotes) * 100);
+                        const isWinner = c.votes === winnerVotes && winnerVotes > 0;
                         %>
-                        <div class="result-item">
+                        <div class="result-item<%= isWinner ? ' winner' : '' %>">
                             <strong>
-                                <%= c.NAME %> (<%= c.PARTY %>)
-                            </strong> - <%= c.VOTES %> votes
+                                <%= c.name %> (<%= c.party %>)
+                            </strong> - <%= c.votes %> votes
                                 <div class="progress-bar-tag">
-                                    <div class="progress-bar-fill" style="width: <%= percent %>%">
+                                    <div class="progress-bar-fill" data-percent="<%= percent %>%">
                                         <%= percent %>%
                                     </div>
                                 </div>
@@ -46,6 +60,16 @@
         </div>
     </div>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.progress-bar-fill').forEach(el => {
+                const pct = el.getAttribute('data-percent');
+                setTimeout(() => {
+                    el.style.width = pct;
+                }, 100);
+            });
+        });
+    </script>
 </body>
 
 </html>

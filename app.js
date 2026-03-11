@@ -6,11 +6,6 @@ const path = require("path");
 
 const app = express();
 
-// Set up EJS view engine
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "ejs");
-
-
 // MongoDB connection
 require("./db");
 
@@ -23,14 +18,17 @@ const voteRoutes = require("./routes/voter");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
+// Set up EJS view engine
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "ejs");
+
+
 app.use(session({
   secret: "voting_secret",
   resave: false,
   saveUninitialized: true
 }));
 
-// View engine
-app.set("view engine", "ejs");
 
 // Home page
 app.get("/", (req, res) => {

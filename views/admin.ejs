@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/images/ovms-logo.png">
     <title>Admin Panel - Indian Voting System</title>
     <link rel="stylesheet" href="/style.css" />
 </head>
@@ -15,8 +16,10 @@
             <div class="logo-text">Admin Panel 🛡️</div>
         </div>
         <ul>
-            <li><a href="/admin/add-voters">Add Voter</a></li>
-            <li><a href="/results">View Results</a></li>
+
+            <li><a href="/admin/candidates"> Manage Candidates</a></li>
+            <li><a href="/admin/voters"> Manage Voters</a></li>
+            <li><a href="/admin/result">View Results</a></li>
             <li><a href="/logout">Logout</a></li>
         </ul>
     </nav>
@@ -26,54 +29,65 @@
     <div class="container">
         <div class="card india-card">
             <h3>➕ Add New Candidate</h3>
-            <form action="/admin/add-candidate" method="POST">
-                <div class="form-group">
-                    <label>Candidate Name</label>
-                    <input type="text" name="name" required />
-                </div>
-                <div class="form-group">
-                    <label>Party</label>
-                    <input type="text" name="party" required />
-                </div>
-                <button type="submit" class="btn india-btn-primary" style="width:100%">Add Candidate</button>
-            </form>
+            <% if (typeof csuccess !=='undefined' && csuccess) { %>
+                <p style="color:green; text-align:center;">
+                    <%= csuccess %>
+                </p>
+                <% } %>
+
+                    <form action="/admin/add-candidate" method="POST">
+                        <div class="form-group">
+                            <label>Candidate Name</label>
+                            <input type="text" name="name" required />
+                        </div>
+                        <div class="form-group">
+                            <label>Party</label>
+                            <input type="text" name="party" required />
+                        </div>
+                        <button type="submit" class="btn india-btn-primary" style="width:100%">Add Candidate</button>
+                    </form>
         </div>
 
-        <div class="card india-card manage-card">
-            <h3>📋 Manage Candidates</h3>
 
-            <table class="manage-table">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Party</th>
-                        <th>Votes</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% candidates.forEach(c=> { %>
-                        <tr>
-                            <td>
-                                <%= c.name %>
-                            </td>
-                            <td>
-                                <%= c.party %>
-                            </td>
-                            <td>
-                                <%= c.votes %>
-                            </td>
-                            <td>
-                                <a href="/admin/delete/<%= c._id %>" class="btn btn-danger">
-                                    Delete
-                                </a>
-                            </td>
-                        </tr>
-                        <% }) %>
-                </tbody>
-            </table>
+        <div class="card india-card">
+            <h3>➕ Add New Voter</h3>
+
+            <% if (error) { %>
+                <p style="color:red; text-align:center;">
+                    <%= error %>
+                </p>
+                <% } %>
+
+                    <% if (typeof success !=='undefined' && success) { %>
+                        <p style="color:green; text-align:center;">
+                            <%= success %>
+                        </p>
+                        <% } %>
+                            <form action="/admin/add-voter" method="POST">
+                                <div class="form-group">
+                                    <label>Voter Name</label>
+                                    <input type="text" name="username" required />
+                                </div>
+                                <div class="form-group">
+                                    <label>Vote For</label>
+                                    <input type="text" name="voterId" required />
+                                </div>
+                                <button type="submit" class="btn india-btn-primary" style="width:100%">Add
+                                    Voter</button>
+                            </form>
         </div>
+
+
+
+
+
     </div>
+
+    <footer
+        style="background-color: rgba(65, 64, 64, 0.639); color: #e3eaf6f5; text-align: center; padding: 1rem 0.5rem; margin-top: 1rem; box-shadow: 0 -4px 12px rgba(0, 71, 171, 0.3);">
+        <p>&copy; 2026 India Voting System. All rights reserved.</p>
+        <a style="text-decoration: none; color: #eae6ff; margin-right: 10px" href="/developers">Developers🌐 </a>
+    </footer>
 
 </body>
 

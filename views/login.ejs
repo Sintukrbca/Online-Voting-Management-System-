@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/images/ovms-logo.png">
     <title>Login - Indian Voting System</title>
     <link rel="stylesheet" href="/style.css" />
 </head>
@@ -58,7 +59,7 @@
                         </button>
                     </form>
 
-                    <form id="adminForm" action="/admin-login" method="POST"  style="display:none;">
+                    <form id="adminForm" action="/admin-login" method="POST" style="display:none;">
                         <div class="form-group">
                             <label>Username</label>
                             <input type="text" name="username" required />
@@ -82,22 +83,20 @@
         </div>
     </div>
 
-    <script> 
-        
+    <script>
         function showAdmin() {
             document.getElementById("formTitle").innerText = "Admin Login";
             document.getElementById("adminForm").style.display = "block";
             document.getElementById("voterForm").style.display = "none";
         }
-
+        
         function showVoter() {
             document.getElementById("formTitle").innerText = "Voter Login";
             document.getElementById("adminForm").style.display = "none";
             document.getElementById("voterForm").style.display = "block";
-        }
-       
+        } 
     </script>
 
-
 </body>
+
 </html>

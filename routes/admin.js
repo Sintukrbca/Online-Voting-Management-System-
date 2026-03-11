@@ -3,28 +3,27 @@ const router = express.Router();
 const Candidate = require("../models/Candidate");
 const Voter = require("../models/voter");
 
-// helper middleware to protect admin routes
-function ensureAdmin(req, res, next) {
-  if (req.session && req.session.user && req.session.user.role === 'admin') {
-    return next();
-  }
-  // not logged in as admin, send to login page
-  return res.redirect('/login');
-}
+
+
 
 // Admin panel
-router.get("/", ensureAdmin, async (req, res) => {
-  try {
-    const candidates = await Candidate.find();
-    res.render("admin", { candidates });
-  } catch (error) {
-    console.error("Error fetching candidates:", error);
-    res.render("admin", { candidates: [] }); // render with empty list
+router.get("/", async (req, res) => {
+  let success = null;
+  let error = null;
+  let csuccess = null;
+  let cerror = null;
+
+  if (req.session.user.role !== 'admin') {
+    return res.redirect('/login');
   }
+  res.render("admin", { success, error, csuccess, cerror });
 });
 
 // Add candidate
-router.post("/add-candidate", ensureAdmin, async (req, res) => {
+router.post("/add-candidate", async (req, res) => {
+  if (req.session.user.role !== 'admin') {
+    return res.redirect('/login');
+  }
   try {
     const { name, party } = req.body;
 
@@ -32,40 +31,89 @@ router.post("/add-candidate", ensureAdmin, async (req, res) => {
       name,
       party
     });
-
     await candidate.save();
 
-    res.redirect("/admin");
+    res.redirect("/admin", { csuccess: "Candidate added successfully!" });
   } catch (error) {
     console.error("Error adding candidate:", error);
-    res.redirect("/admin"); // redirect back, perhaps with error
+    res.redirect("/admin", { cerror: "Failed to add candidate. Please try again." });
   }
 });
 
-// Delete candidate
-router.get("/delete/:id", ensureAdmin, async (req, res) => {
-  await Candidate.findByIdAndDelete(req.params.id);
-  res.redirect("/admin");
+// View candidates
+router.get("/candidates", async (req, res) => {
+  if (req.session.user.role !== 'admin') {
+    return res.redirect('/login');
+  }
+  const candidates = await Candidate.find();
+  res.render("candidates", { candidates });
 });
+
+// Delete candidate
+router.get("/delete/:id", async (req, res) => {
+  try {
+    await Candidate.findByIdAndDelete(req.params.id);
+    res.redirect("/admin/candidates");
+  } catch (error) {
+    console.error("Error deleting candidate:", error);
+    res.redirect("/admin/candidates");
+  }
+});
+
+
 
 
 
 // Add voter form
-router.get("/add-voters", ensureAdmin, (req, res) => {
-  res.render("add-voters", { success: null, error: null });
-});
-
-router.post("/add-voter", ensureAdmin, async (req, res) => {
+router.post("/add-voter", async (req, res) => {
+  if (req.session.user.role !== 'admin') {
+    return res.redirect('/login');
+  }
   const { username, voterId } = req.body;
 
   try {
     const voter = new Voter({ username, voterId });
     await voter.save();
-    res.render("add-voters", { success: "Voter added successfully!", error: null });
+    res.render("admin", { success: "Voter added successfully!", error: null });
   } catch (error) {
     console.error("Error adding voter:", error);
-    res.render("add-voters", { error: "Failed to add voter. Please try again.", success: null });
+    res.render("admin", { error: "Failed to add voter. Please try again.", success: null });
   }
+});
+
+
+// View voters
+router.get("/voters", async (req, res) => {
+  if (req.session.user.role !== 'admin') {
+    return res.redirect('/login');
+  }
+  const voters = await Voter.find();
+  res.render("voters", { voters });
+});
+
+//delete voter
+router.get("/delete-voter/:id", async (req, res) => {
+  try {
+    await Voter.findByIdAndDelete(req.params.id);
+    res.redirect("/admin/voters");
+  } catch (error) {
+    console.error("Error deleting voter:", error);
+    res.redirect("/admin/voters");
+  }
+});
+
+// Results
+router.get("/result", async (req, res) => {
+  if (req.session.user.role !== 'admin') {
+    return res.redirect('/login');
+  }
+  const candidates = await Candidate.find();
+  res.render("result", { candidates, user: req.session.user });
+});
+
+// View developers page
+router.get("/developers", (req, res) => {
+  res.render("developers");
 });
 
 

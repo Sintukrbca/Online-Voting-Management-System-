@@ -21,13 +21,13 @@ router.get("/dashboard", ensureLoggedIn, async (req, res) => {
 // Vote
 router.post("/vote/:id", ensureLoggedIn, async (req, res) => {
   try {
-    const voter = await Voter.findOne({ 
+    const voter = await Voter.findOne({
       username: req.session.user.username,
       voterId: req.session.user.voterId
     });
 
     if (!voter) {
-      return res.render("dashboard", { 
+      return res.render("dashboard", {
         error: "Voter record not found",
         candidates: await Candidate.find()
       });
@@ -36,12 +36,10 @@ router.post("/vote/:id", ensureLoggedIn, async (req, res) => {
     // Check if voter already voted today
     const voted = new Date();
     voted.setHours(0, 0, 0, 0);
-    
     if (voter.lastVoted) {
-      const lastVDate = new Date(voter.lastVoted);
-      lastVDate.setHours(0, 0, 0, 0);
-      
-      if (lastVDate.getTime() === voted.getTime()) {
+      const lastVotedDate = new Date(voter.lastVoted);
+      lastVotedDate.setHours(0, 0, 0, 0);
+      if (lastVotedDate.getTime() === voted.getTime()) {
         return res.send(`
           <script>
             alert("You have already voted ☑ ");
@@ -64,7 +62,7 @@ router.post("/vote/:id", ensureLoggedIn, async (req, res) => {
     res.redirect("/success");
   } catch (error) {
     console.error("Error during voting:", error);
-    res.render("dashboard", { 
+    res.render("dashboard", {
       error: "An error occurred while voting. Please try again.",
       candidates: await Candidate.find()
     });
@@ -72,7 +70,7 @@ router.post("/vote/:id", ensureLoggedIn, async (req, res) => {
 });
 
 // Success page
-router.get("/success", ensureLoggedIn, (req,res)=>{
+router.get("/success", ensureLoggedIn, (req, res) => {
   res.render("success");
 });
 

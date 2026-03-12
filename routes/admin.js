@@ -8,15 +8,14 @@ const Voter = require("../models/voter");
 
 // Admin panel
 router.get("/", async (req, res) => {
-  let success = null;
-  let error = null;
-  let csuccess = null;
-  let cerror = null;
+  success = null;
+  error = null;
+
 
   if (req.session.user.role !== 'admin') {
     return res.redirect('/login');
   }
-  res.render("admin", { success, error, csuccess, cerror });
+  res.render("admin", { success, error });
 });
 
 // Add candidate
@@ -33,10 +32,10 @@ router.post("/add-candidate", async (req, res) => {
     });
     await candidate.save();
 
-    res.redirect("/admin", { csuccess: "Candidate added successfully!" });
+    res.render("admin", { success: "Candidate added successfully!" });
   } catch (error) {
     console.error("Error adding candidate:", error);
-    res.redirect("/admin", { cerror: "Failed to add candidate. Please try again." });
+    res.render("admin", { error: "Failed to add candidate. Please try again." });
   }
 });
 

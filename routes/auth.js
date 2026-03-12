@@ -113,6 +113,26 @@ router.post("/admin-login", (req, res) => {
 
 });
 
+//register page
+router.get("/register", (req, res) => {
+  error=null;
+  success=null;
+  res.render("register");
+});
+
+router.post("/register", async (req, res) => {
+  const { username, voterId } = req.body;
+
+  try {
+    const voter = new Voter({ username, voterId });
+    await voter.save();
+    res.render("register", { success: "Registration successful! Please login.", error: null });
+  } catch (error) {
+    console.error("Error registering voter:", error);
+    res.render("register", { error: "Failed to register. Please try again.", success: null });
+  }
+});
+
 // Logout route (accessible from anywhere)
 router.get("/logout", (req, res) => {
   req.session.destroy((err) => {

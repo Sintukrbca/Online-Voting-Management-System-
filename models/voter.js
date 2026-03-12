@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const voterSchema = new mongoose.Schema({
   username: String,
   voterId: String,
-  lastVotedDate: {
+  lastVoted: {
     type: Date,
     default: null
   }

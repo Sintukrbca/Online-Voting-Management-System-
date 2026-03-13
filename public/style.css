@@ -581,3 +581,23 @@ transform:scale(1.08);
 .stat-card h3{
 font-size:2rem;
 }
+
+.ifd {
+    color: #3d3d3d;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1rem;
+    margin-top: 0.3rem;
+    margin-bottom: 0.3rem;
+    display: inline-block;
+}
+.ifd:hover {
+    color: #0047AB;
+    text-shadow: 0 0 8px rgba(0, 71, 171, 0.5);
+}
+
+
+/* Responsive */
+
+
+

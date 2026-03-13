@@ -8,19 +8,19 @@ const Voter = require("../models/voter");
 
 // Admin panel
 router.get("/", async (req, res) => {
-  success = null;
-  error = null;
+  const successCandidate = null;
+  const successVoter = null;
+  const error = null;
 
-
-  if (req.session.user.role !== 'admin') {
+  if (!req.session.user || req.session.user.role !== 'admin') {
     return res.redirect('/login');
   }
-  res.render("admin", { success, error });
+  res.render("admin", { successCandidate, successVoter, error });
 });
 
 // Add candidate
 router.post("/add-candidate", async (req, res) => {
-  if (req.session.user.role !== 'admin') {
+  if (!req.session.user || req.session.user.role !== 'admin') {
     return res.redirect('/login');
   }
   try {
@@ -32,16 +32,16 @@ router.post("/add-candidate", async (req, res) => {
     });
     await candidate.save();
 
-    res.render("admin", { success: "Candidate added successfully!" });
+    res.render("admin", { successCandidate: "Candidate added successfully!", error: null, successVoter: null });
   } catch (error) {
     console.error("Error adding candidate:", error);
-    res.render("admin", { error: "Failed to add candidate. Please try again." });
+    res.render("admin", { error: "Failed to add candidate. Please try again.", successCandidate: null, successVoter: null });
   }
 });
 
 // View candidates
 router.get("/candidates", async (req, res) => {
-  if (req.session.user.role !== 'admin') {
+  if (!req.session.user || req.session.user.role !== 'admin') {
     return res.redirect('/login');
   }
   const candidates = await Candidate.find();
@@ -50,6 +50,9 @@ router.get("/candidates", async (req, res) => {
 
 // Delete candidate
 router.get("/delete/:id", async (req, res) => {
+  if (!req.session.user || req.session.user.role !== 'admin') {
+    return res.redirect('/login');
+  }
   try {
     await Candidate.findByIdAndDelete(req.params.id);
     res.redirect("/admin/candidates");
@@ -65,7 +68,7 @@ router.get("/delete/:id", async (req, res) => {
 
 // Add voter form
 router.post("/add-voter", async (req, res) => {
-  if (req.session.user.role !== 'admin') {
+  if (!req.session.user || req.session.user.role !== 'admin') {
     return res.redirect('/login');
   }
   const { username, voterId } = req.body;
@@ -73,17 +76,17 @@ router.post("/add-voter", async (req, res) => {
   try {
     const voter = new Voter({ username, voterId });
     await voter.save();
-    res.render("admin", { success: "Voter added successfully!", error: null });
+    res.render("admin", { successVoter: "Voter added successfully!", error: null, successCandidate: null });
   } catch (error) {
     console.error("Error adding voter:", error);
-    res.render("admin", { error: "Failed to add voter. Please try again.", success: null });
+    res.render("admin", { error: "Failed to add voter. Please try again.", successCandidate: null, successVoter: null });
   }
 });
 
 
 // View voters
 router.get("/voters", async (req, res) => {
-  if (req.session.user.role !== 'admin') {
+  if (!req.session.user || req.session.user.role !== 'admin') {
     return res.redirect('/login');
   }
   const voters = await Voter.find();
@@ -92,6 +95,9 @@ router.get("/voters", async (req, res) => {
 
 //delete voter
 router.get("/delete-voter/:id", async (req, res) => {
+  if (!req.session.user || req.session.user.role !== 'admin') {
+    return res.redirect('/login');
+  }
   try {
     await Voter.findByIdAndDelete(req.params.id);
     res.redirect("/admin/voters");
@@ -103,7 +109,7 @@ router.get("/delete-voter/:id", async (req, res) => {
 
 // Results
 router.get("/result", async (req, res) => {
-  if (req.session.user.role !== 'admin') {
+  if (!req.session.user || req.session.user.role !== 'admin') {
     return res.redirect('/login');
   }
   const candidates = await Candidate.find();
@@ -112,9 +118,9 @@ router.get("/result", async (req, res) => {
 
 // View developers page
 router.get("/developers", (req, res) => {
-  res.render("developers");
+  const isAdmin = req.session.user && req.session.user.role === 'admin';
+  res.render("developers", { isAdmin });
 });
-
 
 module.exports = router;
 

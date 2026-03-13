@@ -29,9 +29,9 @@
     <div class="container">
         <div class="card india-card">
             <h3>➕ Add New Candidate</h3>
-            <% if (typeof success !=='undefined' && success) { %>
+            <% if (typeof successCandidate !=='undefined' && successCandidate) { %>
                 <p style="color:green; text-align:center;">
-                    <%= success %>
+                    <%= successCandidate %>
                 </p>
                 <% } %>
 
@@ -58,9 +58,9 @@
                 </p>
                 <% } %>
 
-                    <% if (typeof success !=='undefined' && success) { %>
+                    <% if (typeof successVoter !=='undefined' && successVoter) { %>
                         <p style="color:green; text-align:center;">
-                            <%= success %>
+                            <%= successVoter %>
                         </p>
                         <% } %>
                             <form action="/admin/add-voter" method="POST">
@@ -86,7 +86,7 @@
     <footer
         style="background-color: rgba(65, 64, 64, 0.639); color: #e3eaf6f5; text-align: center; padding: 1rem 0.5rem; margin-top: 1rem; box-shadow: 0 -4px 12px rgba(0, 71, 171, 0.3);">
         <p>&copy; 2026 India Voting System. All rights reserved.</p>
-        <a style="text-decoration: none; color: #eae6ff; margin-right: 10px" href="/developers">Developers🌐 </a>
+        <a class="ifd" href="/developers">Developers🌐 </a>
     </footer>
 
 </body>

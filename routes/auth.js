@@ -9,10 +9,9 @@ router.get("/login", (req, res) => {
 
 // Developers page
 router.get("/developers", (req, res) => {
-  res.render("developers");
+  const isAdmin = req.session.user && req.session.user.role === 'admin';
+  res.render("developers", { isAdmin });
 });
-
-error=null;
 
 
 //otp
@@ -115,9 +114,9 @@ router.post("/admin-login", (req, res) => {
 
 //register page
 router.get("/register", (req, res) => {
-  error=null;
-  success=null;
-  res.render("register");
+  const error = null;
+  const success = null;
+  res.render("register", { error, success });
 });
 
 router.post("/register", async (req, res) => {

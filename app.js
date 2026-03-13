@@ -24,9 +24,13 @@ app.set("view engine", "ejs");
 
 
 app.use(session({
-  secret: "voting_secret",
+  secret: process.env.SESSION_SECRET || "fallback_secret_change_in_production",
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: true,
+  cookie: {
+    secure: false, // Set to true in production with HTTPS
+    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+  }
 }));
 
 

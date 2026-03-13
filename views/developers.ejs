@@ -24,7 +24,11 @@
         </div>
 
         <ul>
-            <li><a href="/admin">Go Back</a></li>
+            <% if (isAdmin) { %>
+            <li><a href="/admin">Admin Panel</a></li>
+            <% } else { %>
+            <li><a href="/">Go Back</a></li>
+            <% } %>
         </ul>
 
     </nav>
@@ -38,7 +42,22 @@
         <div class="team-grid">
 
             <div class="team-card">
-                <img src="/images/dev1.png" alt="">
+                <img src="/images/quaiser.jpeg" alt="Quaiser Perwez">
+                <h3>Quaiser Perwez</h3>
+                <p style="color: rgb(211, 61, 23);">Roll No: 06</p>
+                <p>Frontend Developer</p>
+
+                <div class="team-links">
+                    <a href="https://github.com/quaiser-perwez" target="_blank"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/quaiser-perwez-7b937b1b1?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"
+                        target="_blank"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://quaiser-perwez.github.io/quaiser-perwez-portfolio.github.com/" target="_blank"><i
+                            class="fas fa-globe"></i></a>
+                </div>
+            </div>
+
+            <div class="team-card">
+                <img src="/images/sintu.png" alt="Sintu Kumar">
                 <h3>Sintu Kumar</h3>
                 <p style="color: rgb(211, 61, 23);">Roll No: 07</p>
                 <p> Backend Developer & Live Hosting</p>
@@ -50,6 +69,10 @@
                     <a href="https://sintuprajapati.vercel.app" target="_blank"><i class="fas fa-globe"></i></a>
                 </div>
             </div>
+
+            </div>
+
+            <div class="team-grid">
 
             <div class="team-card">
                 <img src="/images/dev2.png" alt="">
@@ -63,20 +86,6 @@
                 </div>
             </div>
 
-            <div class="team-card">
-                <img src="/images/dev3.png" alt="">
-                <h3>Quaiser Perwez</h3>
-                <p style="color: rgb(211, 61, 23);">Roll No: 06</p>
-                <p>Frontend Developer</p>
-
-                <div class="team-links">
-                    <a href="https://github.com/quaiser-perwez" target="_blank"><i class="fab fa-github"></i></a>
-                    <a href="https://www.linkedin.com/in/quaiser-perwez-7b937b1b1?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"
-                        target="_blank"><i class="fab fa-linkedin"></i></a>
-                    <a href="https://quaiser-perwez.github.io/quaiser-perwez-portfolio.github.com/" target="_blank"><i
-                            class="fas fa-globe"></i></a>
-                </div>
-            </div>
 
             <div class="team-card">
                 <img src="/images/dev4.png" alt="">

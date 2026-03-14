@@ -56,9 +56,10 @@ router.post("/vote/:id", ensureLoggedIn, async (req, res) => {
 
     // Update voter's last voted date
     voter.lastVoted = new Date();
+    voter.status = "Voted";
     await voter.save();
 
-    console.log(`Voter ${voter.username} voted at ${voter.lastVoted}`);
+    console.log(`Voter ${voter.username} Voted at ${voter.lastVoted}`);
     res.redirect("/success");
   } catch (error) {
     console.error("Error during voting:", error);

@@ -6,6 +6,10 @@ const voterSchema = new mongoose.Schema({
   lastVoted: {
     type: Date,
     default: null
+  },
+  status: {
+    type: String,
+    default: "Not Voted"
   }
 });
 

@@ -15,30 +15,30 @@
             <div class="ashoka-chakra">⊛</div>
             <div class="logo-text">Indian Vote System</div>
         </div>
-        <ul>
+        <ul role="tablist">
             <li><a href="/">Home</a></li>
-            <li><a href="#" onclick="showAdmin()">Admin</a></li>
-            <li><a href="#" onclick="showVoter()">Voter</a></li>
+            <li><button class="nav-btn active" onclick="showVoter()" data-form="voter" role="tab" aria-selected="true" aria-controls="voterForm" id="voter-tab">Voter Login</button></li>
+            <li><button class="nav-btn" onclick="showAdmin()" data-form="admin" role="tab" aria-selected="false" aria-controls="adminForm" id="admin-tab">Admin Login</button></li>
         </ul>
     </nav>
 
     <div class="flag-stripe"></div>
 
-    <div class="container" style="max-width: 400px">
-        <div class="card india-card">
+    <div class="container login-container">
+        <div class="card india-card login-card">
 
-            <h2 id="formTitle" style="text-align:center; color:#0047AB;">Voter Login</h2>
+            <h2 id="formTitle" class="form-title">Voter Login</h2>
 
             <% if (error) { %>
-                <p style="color:red; text-align:center;">
+                <div class="error-message">
                     <%= error %>
-                </p>
+                </div>
                 <% } %>
 
 
 
                     <!-- VOTER FORM -->
-                    <form id="voterForm" action="/send-otp" method="POST">
+                    <form id="voterForm" action="/send-otp" method="POST" role="tabpanel" aria-labelledby="voter-tab">
                         <div class="form-group">
                             <label>Username</label>
                             <input type="text" name="username" required />
@@ -54,13 +54,13 @@
                             <input type="text" name="phone" id="phone" required />
                         </div>
 
-                        <button type="submit" class="btn india-btn-primary" style="width:100%;">
+                        <button type="submit" class="btn india-btn-primary login-submit-btn">
                             Voter Login
                         </button>
-                          <p style="text-align:center;">Don't have an account? <a href="/register">Register</a></p>
+                          <p class="register-link">Don't have an account? <a href="/register">Register</a></p>
                     </form>
 
-                    <form id="adminForm" action="/admin-login" method="POST" style="display:none;">
+                    <form id="adminForm" action="/admin-login" method="POST" style="display:none;" role="tabpanel" aria-labelledby="admin-tab">
                         <div class="form-group">
                             <label>Username</label>
                             <input type="text" name="username" required />
@@ -76,7 +76,7 @@
                             <input type="text" name="role" value="admin" readonly />
                         </div>
 
-                        <button type="submit" class="btn india-btn-primary" style="width:100%;">
+                        <button type="submit" class="btn india-btn-primary login-submit-btn">
                             Admin Login
                         </button>
                     </form>
@@ -84,18 +84,86 @@
         </div>
     </div>
 
+    <!-- Information Section -->
+    <section class="info-section">
+        <div class="container">
+            <div class="info-grid">
+                <div class="info-card">
+                    <div class="info-icon">🗳️</div>
+                    <h3>Secure Voting</h3>
+                    <p>Your vote is protected with advanced security measures and encryption technology.</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-icon">⚡</div>
+                    <h3>Fast & Easy</h3>
+                    <p>Complete your voting process in just a few minutes with our user-friendly interface.</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-icon">📱</div>
+                    <h3>Mobile Friendly</h3>
+                    <p>Access the voting system from any device - desktop, tablet, or mobile phone.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <div class="ashoka-chakra">⊛</div>
+                    <span>Indian Vote System</span>
+                </div>
+                <div class="footer-links">
+                    <a href="/info">About</a>
+                    <a href="/info">Privacy Policy</a>
+                    <a href="/info">Terms of Service</a>
+                    <a href="/contact">Contact</a>
+                </div>
+                <div class="footer-copyright">
+                    <p>&copy; 2026 Indian Voting System. All rights reserved.</p>
+                    <p>For Elections in India</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
     <script>
         function showAdmin() {
             document.getElementById("formTitle").innerText = "Admin Login";
             document.getElementById("adminForm").style.display = "block";
             document.getElementById("voterForm").style.display = "none";
+            
+            // Update active navigation button
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+                btn.setAttribute('aria-selected', 'false');
+            });
+            const adminBtn = document.querySelector('[data-form="admin"]');
+            adminBtn.classList.add('active');
+            adminBtn.setAttribute('aria-selected', 'true');
         }
         
         function showVoter() {
             document.getElementById("formTitle").innerText = "Voter Login";
             document.getElementById("adminForm").style.display = "none";
             document.getElementById("voterForm").style.display = "block";
-        } 
+            
+            // Update active navigation button
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+                btn.setAttribute('aria-selected', 'false');
+            });
+            const voterBtn = document.querySelector('[data-form="voter"]');
+            voterBtn.classList.add('active');
+            voterBtn.setAttribute('aria-selected', 'true');
+        }
+        
+        // Set default active state on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            showVoter(); // Default to voter login
+        });
     </script>
 
 </body>

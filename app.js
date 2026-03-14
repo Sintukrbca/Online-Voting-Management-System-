@@ -39,6 +39,16 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
+//info page
+app.get("/info", (req, res) => {
+  res.render("info");
+});
+
+//contact page
+app.get("/contact", (req, res) => {
+  res.render("contact");
+});
+
 // Routes
 app.use("/", authRoutes);
 app.use("/", voteRoutes);

@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const Voter = require("../models/voter");  
+const Voter = require("../models/voter");
 error = null;
 
 // Login page
@@ -25,10 +25,10 @@ router.get("/otp", (req, res) => {
 router.post("/send-otp", async (req, res) => {
   error = null;
   const { username, voterId } = req.body;
-   try {
+  try {
     const voter = await Voter.findOne({
       username,
-       voterId
+      voterId
     });
 
     if (!voter) {
@@ -67,7 +67,7 @@ router.post("/verify-otp", (req, res) => {
   }
 
   if (parseInt(otp) === req.session.otp) {
-     req.session.user = {
+    req.session.user = {
       username: req.session.voter.username,
       voterId: req.session.voter.voterId,
       role: "voter"
@@ -80,7 +80,7 @@ router.post("/verify-otp", (req, res) => {
     console.log("Invalid OTP");
     return res.render("otp", { error: "Invalid OTP" });
   }
-  
+
 });
 
 
@@ -100,10 +100,10 @@ router.post("/resend-otp", (req, res) => {
 
 // Admin login (temporary demo admin)
 router.post("/admin-login", (req, res) => {
-    const { username, password } = req.body;
+  const { username, password } = req.body;
 
   if (username === "admin" && password === "admin123") {
-       req.session.user = {
+    req.session.user = {
       username: "admin",
       role: "admin"
     };
@@ -124,15 +124,33 @@ router.get("/register", (req, res) => {
 });
 
 router.post("/register", async (req, res) => {
-  const { username, voterId } = req.body;
-
+  const { username, voterId, aadhar, mobile, fatherName, address, gender, dob, pincode } = req.body;
   try {
-    const voter = new Voter({ username, voterId });
-    await voter.save();
-    res.render("register", { success: "Registration successful! Please login.", error: null });
+    const existingVoter = await Voter.findOne({ $or: [{ voterId }, { aadhar }] });
+    if (existingVoter) {
+      return res.render("register", { error: "Voter ID or Aadhar number already exists", success: null });
+    }
+
+    const register = new Voter({
+      username,
+      voterId,
+      aadhar,
+      mobile,
+      fatherName,
+      address,
+      gender,
+      dob,
+      pincode
+    });
+
+
+    await register.save();
+    console.log("New voter registered:", register);
+
+    res.redirect("/rsuccess");
   } catch (error) {
     console.error("Error registering voter:", error);
-    res.render("register", { error: "Failed to register. Please try again.", success: null });
+    res.render("register", { error: "An error occurred. Please try again.", success: null });
   }
 });
 
@@ -147,5 +165,9 @@ router.get("/logout", (req, res) => {
   });
 });
 
+// Registration success page
+router.get("/rsuccess", (req, res) => {
+  res.render("rsuccess");
+});
 
 module.exports = router;

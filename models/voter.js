@@ -1,8 +1,15 @@
 const mongoose = require("mongoose");
 
 const voterSchema = new mongoose.Schema({
-  username: String,
-  voterId: String,
+  username: {
+    type: String,
+    required: true
+  },
+  voterId: {
+    type: String,
+    required: true,
+    unique: true
+  },
   lastVoted: {
     type: Date,
     default: null

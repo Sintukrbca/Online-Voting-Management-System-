@@ -107,6 +107,66 @@ router.get("/delete-voter/:id", async (req, res) => {
   }
 });
 
+// Edit form (voter or candidate)
+router.get("/edit", async (req, res) => {
+  if (!req.session.user || req.session.user.role !== 'admin') {
+    return res.redirect('/login');
+  }
+
+  const { type, id } = req.query;
+  if (!type || !id) {
+    return res.redirect('/admin');
+  }
+
+  try {
+    let item = null;
+    if (type === 'voter') {
+      item = await Voter.findById(id);
+    } else if (type === 'candidate') {
+      item = await Candidate.findById(id);
+    }
+
+    if (!item) {
+      return res.redirect('/admin');
+    }
+
+    const success = req.query.success;
+    const errorMsg = req.query.error;
+
+    res.render('editing', { type, item, success, errorMsg });
+  } catch (error) {
+    console.error('Error loading edit form:', error);
+    res.redirect('/admin');
+  }
+});
+
+// Update handler for both voters and candidates
+router.post("/edit", async (req, res) => {
+  if (!req.session.user || req.session.user.role !== 'admin') {
+    return res.redirect('/login');
+  }
+
+  const { type, id, name, party, username, voterId } = req.body;
+
+  try {
+    if (type === 'voter') {
+      await Voter.findByIdAndUpdate(id, { username, voterId });
+      return res.redirect(`/admin/edit?type=voter&id=${id}&success=true`);
+    }
+
+    if (type === 'candidate') {
+      await Candidate.findByIdAndUpdate(id, { name, party });
+      return res.redirect(`/admin/edit?type=candidate&id=${id}&success=true`);
+    }
+
+    res.redirect('/admin');
+  } catch (error) {
+    console.error('Error updating item:', error);
+    // Return to edit form with error
+    return res.redirect(`/admin/edit?type=${type}&id=${id}&error=update`);
+  }
+});
+
 // Results
 router.get("/result", async (req, res) => {
   if (!req.session.user || req.session.user.role !== 'admin') {

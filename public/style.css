@@ -431,7 +431,7 @@ nav a:hover {
 }
 
 .login-container {
-    max-width: 350px;
+    max-width: 450px;
     margin: 2rem auto;
     padding: 0 20px;
 }
@@ -614,6 +614,10 @@ textarea:focus {
 }
 
 .btn-danger {
+    margin: 5px;
+    padding: 0.5rem 1.5rem;
+    border: 2px solid #dc3545;
+    border-radius: 8px;
     background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
     box-shadow: 0 8px 25px rgba(231, 76, 60, 0.3);
 }
@@ -623,6 +627,27 @@ textarea:focus {
     transform: scale(1.05);
     box-shadow: 0 15px 40px rgba(231, 76, 60, 0.5);
 }
+
+.btn-edit {
+margin: 5px;
+padding: 0.3rem 1.6rem;
+border: 2px solid #28a745;
+border-radius: 20px;
+background: linear-gradient(135deg, #28a745 0%, #1e8449 100%);
+color: white;
+font-weight: 600;
+text-decoration: none;
+display: inline-block;
+box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3);
+transition: all 0.3s ease;
+}
+
+.btn-edit:hover {
+transform: translateY(-2px);
+box-shadow: 0 12px 30px rgba(40, 167, 69, 0.4);
+}
+
+
 
 
 /* Premium Dashboard and Admin Grid */
@@ -743,7 +768,7 @@ textarea:focus {
 
 .team-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
     margin-top: 2rem;
 }
@@ -762,6 +787,10 @@ textarea:focus {
     position: relative;
     overflow: hidden;
     border-left: 5px solid #FF9933;
+    aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .team-card::before {
@@ -996,6 +1025,26 @@ h2::after {
     margin-top: 0.5rem;
     border: 1px solid rgba(255, 255, 255, 0.3);
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Register Form Grid */
+.register-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+/* Mobile: single-column register form */
+@media (max-width: 768px) {
+    .register-form {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        padding-bottom: 1rem;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-top: 1rem;
+    }
 }
 
 .progress-bar-fill {

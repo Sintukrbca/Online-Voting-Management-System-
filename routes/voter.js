@@ -59,6 +59,12 @@ router.post("/vote/:id", ensureLoggedIn, async (req, res) => {
     voter.status = "Voted";
     await voter.save();
 
+    // Store voted candidate in session for success page
+    req.session.votedCandidate = {
+      _id: candidate._id,
+      name: candidate.name
+    };
+
     console.log(`Voter ${voter.username} Voted at ${voter.lastVoted}`);
     res.redirect("/success");
   } catch (error) {
@@ -71,8 +77,18 @@ router.post("/vote/:id", ensureLoggedIn, async (req, res) => {
 });
 
 // Success page
-router.get("/success", ensureLoggedIn, (req, res) => {
-  res.render("success");
+router.get("/success", ensureLoggedIn, async (req, res) => {
+
+  if (!req.session.votedCandidate) {
+    return res.redirect("/dashboard");
+  }
+  const candidates = await Candidate.find();
+  const votedCandidate = req.session.votedCandidate;
+  
+  // Clear the voted candidate from session after displaying
+  delete req.session.votedCandidate;
+  
+  res.render("success", { candidates, votedCandidate });
 });
 
 // Logout

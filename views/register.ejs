@@ -13,7 +13,7 @@
     <nav class="india-nav">
         <div class="nav-brand">
             <div class="ashoka-chakra">⊛</div>
-            <div class="logo-text">Admin Panel 🛡️</div>
+            <div class="logo-text">Indian Voting System</div>
         </div>
         <ul>
 
@@ -26,39 +26,60 @@
 
 
     <div class="card india-card">
-        <h3>➕ Add New Voter</h3>
+        <h3>📝 Register Voter</h3>
 
-        <% if (error) { %>
-            <p style="color:red; text-align:center;">
-                <%= error %>
-            </p>
-            <% } %>
+        <p style="color:red; text-align:center;">
+            <%= error %>
+        </p>
 
-                <% if (typeof success !=='undefined' && success) { %>
-                    <p style="color:green; text-align:center;">
-                        <%= success %>
-                    </p>
-                    <% } %>
-                        <form action="/register" method="POST">
-                            <div class="form-group">
-                                <label>Voter Name</label>
-                                <input type="text" name="username" required />
-                            </div>
-                            <div class="form-group">
-                                <label>Vote For</label>
-                                <input type="text" name="voterId" required />
-                            </div>
-                            <button type="submit" class="btn india-btn-primary" style="width:100%">Add
-                                Voter</button>
-                        </form>
+        <form action="/register" method="POST" class="register-form">
+            <div class="form-group">
+                <label for="username">Voter Name</label>
+                <input type="text" id="username" name="username" required />
+            </div>
+            <div class="form-group">
+                <label for="voterId">Vote ID</label>
+                <input type="text" id="voterId" name="voterId" required />
+            </div>
+            <div class="form-group">
+                <label for="aadhar">Aadhar Number</label>
+                <input type="text" id="aadhar" name="aadhar" required />
+            </div>
+            <div class="form-group">
+                <label for="mobile">Mobile Number</label>
+                <input type="text" id="mobile" name="mobile" required />
+            </div>
+            <div class="form-group">
+                <label for="fatherName">Father's Name</label>
+                <input type="text" id="fatherName" name="fatherName" required />
+            </div>
+            <div class="form-group">
+                <label for="address">Address</label>
+                <input type="text" id="address" name="address" required />
+            </div>
+            <div class="form-group">
+                <label for="gender">Gender</label>
+                <select id="gender" name="gender" required>
+                    <option value="">Select Gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="dob">Date of Birth</label>
+                <input type="date" id="dob" name="dob" required />
+            </div>
+            <div class="form-group">
+                <label for="pincode">Pin Code</label>
+                <input type="text" id="pincode" name="pincode" required />
+            </div>
+            <button type="submit" class="btn india-btn-primary login-submit-btn" style="grid-column: span 2;">Register
+                Voter</button>
+        </form>
     </div>
 
-
-
-
-
     </div>
-
 
 </body>
 

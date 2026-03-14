@@ -46,6 +46,7 @@
                                     <a href="delete/<%= candidate._id %>" 
                                        onclick="return confirm('Are you sure you want to delete this candidate?')" 
                                        style="color:red; text-decoration:none;">🗑️ Delete</a>
+                                    <a href="/admin/edit?type=candidate&id=<%= candidate._id %>" style="color:green; text-decoration:none;">✏️ Edit</a>
                                 </td>
                             </tr>
                         <% }); %>

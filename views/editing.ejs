@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="/images/ovms-logo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Item - Admin Panel</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+
+<body class="india-theme">
+
+  <nav class="india-nav">
+    <div class="nav-brand">
+      <div class="ashoka-chakra">⊛</div>
+      <div class="logo-text">Admin Panel 🛡️</div>
+    </div>
+    <ul>
+      <li><a href="/admin">Back to Admin</a></li>
+      <li><a href="/admin/candidates">Manage Candidates</a></li>
+      <li><a href="/admin/voters">Manage Voters</a></li>
+      <li><a href="/logout">Logout</a></li>
+    </ul>
+  </nav>
+
+  <div class="flag-stripe"></div>
+
+  <div class="container">
+    <div class="card india-card" style="max-width:550px; margin:auto;">
+      <h2 style="margin-bottom:1.5rem;">Edit <%= type === 'candidate' ? 'Candidate' : 'Voter' %></h2>
+
+      <% if (!item) { %>
+        <p style="color:red; text-align:center;">No data loaded. Please go back and select an item to edit.</p>
+      <% } else { %>
+        <form action="/admin/edit" method="POST" class="register-form" style="grid-template-columns: 1fr;">
+          <input type="hidden" name="type" value="<%= type %>" />
+          <input type="hidden" name="id" value="<%= item._id %>" />
+
+          <% if (success) { %>
+            <div style="color: green; text-align: center; margin-bottom: 1rem;">
+              Updated successfully!
+            </div>
+          <% } %>
+          <% if (errorMsg) { %>
+            <div style="color: red; text-align: center; margin-bottom: 1rem;">
+              Something went wrong while updating. Please try again.
+            </div>
+          <% } %>
+
+          <% if (type === 'candidate') { %>
+            <div class="form-group">
+              <label for="name">Candidate Name</label>
+              <input id="name" name="name" type="text" value="<%= item.name %>" required />
+            </div>
+            <div class="form-group">
+              <label for="party">Party</label>
+              <input id="party" name="party" type="text" value="<%= item.party %>" required />
+            </div>
+          <% } else { %>
+            <div class="form-group">
+              <label for="username">Voter Name</label>
+              <input id="username" name="username" type="text" value="<%= item.username %>" required />
+            </div>
+            <div class="form-group">
+              <label for="voterId">Voter ID</label>
+              <input id="voterId" name="voterId" type="text" value="<%= item.voterId %>" required />
+            </div>
+          <% } %>
+
+          <button type="submit" class="btn india-btn-primary" style="width:100%;">Save Changes</button>
+        </form>
+      <% } %>
+
+    </div>
+  </div>
+
+</body>
+
+</html>

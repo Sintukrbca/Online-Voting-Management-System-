@@ -17,8 +17,10 @@
         </div>
         <ul role="tablist">
             <li><a href="/">Home</a></li>
-            <li><button class="nav-btn active" onclick="showVoter()" data-form="voter" role="tab" aria-selected="true" aria-controls="voterForm" id="voter-tab">Voter Login</button></li>
-            <li><button class="nav-btn" onclick="showAdmin()" data-form="admin" role="tab" aria-selected="false" aria-controls="adminForm" id="admin-tab">Admin Login</button></li>
+            <li><button class="nav-btn active" onclick="showVoter()" data-form="voter" role="tab" aria-selected="true"
+                    aria-controls="voterForm" id="voter-tab">Voter Login</button></li>
+            <li><button class="nav-btn" onclick="showAdmin()" data-form="admin" role="tab" aria-selected="false"
+                    aria-controls="adminForm" id="admin-tab">Admin Login</button></li>
         </ul>
     </nav>
 
@@ -27,7 +29,7 @@
     <div class="container login-container">
         <div class="card india-card login-card">
 
-            <h2 id="formTitle" class="form-title">Voter Login</h2>
+            <h2 id="formTitle" class="form-title lft">Voter Login</h2>
 
             <% if (error) { %>
                 <div class="error-message">
@@ -57,10 +59,11 @@
                         <button type="submit" class="btn india-btn-primary login-submit-btn">
                             Voter Login
                         </button>
-                          <p class="register-link">Don't have an account? <a href="/register">Register</a></p>
+                        <p class="register-link">Don't have an account? <a href="/register">Register</a></p>
                     </form>
 
-                    <form id="adminForm" action="/admin-login" method="POST" style="display:none;" role="tabpanel" aria-labelledby="admin-tab">
+                    <form id="adminForm" action="/admin-login" method="POST" style="display:none;" role="tabpanel"
+                        aria-labelledby="admin-tab">
                         <div class="form-group">
                             <label>Username</label>
                             <input type="text" name="username" required />
@@ -84,28 +87,7 @@
         </div>
     </div>
 
-    <!-- Information Section -->
-    <section class="info-section">
-        <div class="container">
-            <div class="info-grid">
-                <div class="info-card">
-                    <div class="info-icon">🗳️</div>
-                    <h3>Secure Voting</h3>
-                    <p>Your vote is protected with advanced security measures and encryption technology.</p>
-                </div>
-                <div class="info-card">
-                    <div class="info-icon">⚡</div>
-                    <h3>Fast & Easy</h3>
-                    <p>Complete your voting process in just a few minutes with our user-friendly interface.</p>
-                </div>
-                <div class="info-card">
-                    <div class="info-icon">📱</div>
-                    <h3>Mobile Friendly</h3>
-                    <p>Access the voting system from any device - desktop, tablet, or mobile phone.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+    
 
     <!-- Footer -->
     <footer class="main-footer">
@@ -134,7 +116,7 @@
             document.getElementById("formTitle").innerText = "Admin Login";
             document.getElementById("adminForm").style.display = "block";
             document.getElementById("voterForm").style.display = "none";
-            
+
             // Update active navigation button
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 btn.classList.remove('active');
@@ -144,12 +126,12 @@
             adminBtn.classList.add('active');
             adminBtn.setAttribute('aria-selected', 'true');
         }
-        
+
         function showVoter() {
             document.getElementById("formTitle").innerText = "Voter Login";
             document.getElementById("adminForm").style.display = "none";
             document.getElementById("voterForm").style.display = "block";
-            
+
             // Update active navigation button
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 btn.classList.remove('active');
@@ -159,9 +141,9 @@
             voterBtn.classList.add('active');
             voterBtn.setAttribute('aria-selected', 'true');
         }
-        
+
         // Set default active state on page load
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             showVoter(); // Default to voter login
         });
     </script>

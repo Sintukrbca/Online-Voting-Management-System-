@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Voter = require("../models/voter");  
+error = null;
 
 // Login page
 router.get("/login", (req, res) => {
@@ -16,11 +17,13 @@ router.get("/developers", (req, res) => {
 
 //otp
 router.get("/otp", (req, res) => {
+  error = null;
   res.render("otp", { error: null, otp: null });
 });
 
 // Send OTP
 router.post("/send-otp", async (req, res) => {
+  error = null;
   const { username, voterId } = req.body;
    try {
     const voter = await Voter.findOne({
@@ -55,6 +58,7 @@ router.post("/send-otp", async (req, res) => {
 
 // Verify OTP
 router.post("/verify-otp", (req, res) => {
+  error = null;
   const { otp } = req.body;
 
   if (!req.session.otp || !req.session.voter) {

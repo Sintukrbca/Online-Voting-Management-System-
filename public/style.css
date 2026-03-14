@@ -27,8 +27,6 @@ body {
     min-height: 100vh;
     position: relative;
     overflow-x: hidden;
-    display: flex;
-    flex-direction: column;
 }
 
 body::before {
@@ -341,8 +339,11 @@ nav a {
     background: linear-gradient(135deg, #0047AB 0%, #003380 100%);
     color: white;
     padding: 1.5rem 0;
-    margin-top: auto;
+    margin-top: 1.5rem;
     border-top: 3px solid #FF9933;
+    bottom: 0;
+    width: 100%;
+    left: 0;
 }
 
 .footer-content {
